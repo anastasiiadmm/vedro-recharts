@@ -19,7 +19,7 @@
 
 #### Шаг 1. Клонирование и переход в папку проекта
 ```bash
-git clone <URL_РЕПОЗИТОРИЯ>
+git clone https://github.com/anastasiiadmm/vedro-recharts.git
 cd vedro-recharts
 ```
 

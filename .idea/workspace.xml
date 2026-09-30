@@ -4,34 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1560b621-c4c2-49f0-95fa-6b7669e158fe" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Analytics/AnalyticsPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Analytics/AnalyticsPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Analytics/MetricCards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Analytics/MetricCards.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Analytics/TimeSeriesChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Analytics/TimeSeriesChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Analytics/WindRoseChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Analytics/WindRoseChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LayerManager/LayerLegend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LayerManager/LayerLegend.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LayerManager/LayerManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LayerManager/LayerManager.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/MapContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/MapContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/layers/CanvasWindParticleLayer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/layers/CanvasWindParticleLayer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/layers/gisLayerManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/layers/gisLayerManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Timeline/Timeline.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Timeline/Timeline.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/mockData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/mockData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useGisDataLoader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useGisDataLoader.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/usePlayback.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/usePlayback.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/gisDataService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/gisDataService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/mockDataGenerator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/mockDataGenerator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/spatialMath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/spatialMath.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/appStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/appStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/gis.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/gis.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/store.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/store.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
+    <list default="true" id="1560b621-c4c2-49f0-95fa-6b7669e158fe" name="Changes" comment="Polish layout, single-line header, and responsive panel alignments">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,29 +19,35 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/anastasiiadmm/vedro-recharts.git",
+    "accountId": "4dbbe54f-d162-4dec-8e02-8c97e42c6e61"
+  }
+}]]></component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.5031539604318405" />
-      <entry key="MS500" value="2.50608733052513" />
-      <entry key="S2" value="2.8624161138277504" />
-      <entry key="S5" value="2.9437303254549283" />
-      <entry key="S10" value="2.9716548454899163" />
-      <entry key="S30" value="2.9905044726016143" />
-      <entry key="S60" value="2.99524631795597" />
-      <entry key="M2" value="2.997621677470362" />
-      <entry key="M5" value="2.9990483151800778" />
-      <entry key="M10" value="2.9995240982681617" />
-      <entry key="M15" value="2.999682718994614" />
-      <entry key="M30" value="2.999841352904846" />
-      <entry key="H1" value="2.999920674804237" />
-      <entry key="H2" value="2.999960336990063" />
-      <entry key="H4" value="2.9999801683920166" />
-      <entry key="D1" value="2.9999966947176953" />
-      <entry key="W1" value="2.9999995278164633" />
+      <entry key="MS100" value="1.0000003167863387" />
+      <entry key="MS500" value="1.0550806845922267" />
+      <entry key="S2" value="1.7383647264142685" />
+      <entry key="S5" value="2.329381952541107" />
+      <entry key="S10" value="2.6281949472386517" />
+      <entry key="S30" value="3.03808341852388" />
+      <entry key="S60" value="3.9135264511858305" />
+      <entry key="M2" value="5.583933066967579" />
+      <entry key="M5" value="8.220627875865485" />
+      <entry key="M10" value="9.790256735750972" />
+      <entry key="M15" value="10.442281989129192" />
+      <entry key="M30" value="11.174831493429451" />
+      <entry key="H1" value="11.575011931024836" />
+      <entry key="H2" value="11.787879257894541" />
+      <entry key="H4" value="11.99508396046715" />
+      <entry key="D1" value="13.694165824473568" />
+      <entry key="W1" value="14.766457275587543" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -89,23 +69,23 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.4406559189002952" />
-      <entry key="MS500" value="2.4687487255920604" />
-      <entry key="S2" value="2.850585180548089" />
-      <entry key="S5" value="2.93876407701897" />
-      <entry key="S10" value="2.969131325956325" />
-      <entry key="S30" value="2.9896541878269027" />
-      <entry key="S60" value="2.9948200280964556" />
-      <entry key="M2" value="2.9974082450298263" />
-      <entry key="M5" value="2.998962873118856" />
-      <entry key="M10" value="2.999481365716509" />
-      <entry key="M15" value="2.9996542280661047" />
-      <entry key="M30" value="2.9998271061600934" />
-      <entry key="H1" value="2.9999135511117117" />
-      <entry key="H2" value="2.9999567750637604" />
-      <entry key="H4" value="2.999978387408855" />
-      <entry key="D1" value="2.9999963978843884" />
-      <entry key="W1" value="2.9999994854116374" />
+      <entry key="MS100" value="0.9659366370485666" />
+      <entry key="MS500" value="1.0478414028417176" />
+      <entry key="S2" value="1.7352436345599924" />
+      <entry key="S5" value="2.32762627334481" />
+      <entry key="S10" value="2.627184372625463" />
+      <entry key="S30" value="3.0375980809438405" />
+      <entry key="S60" value="3.9129369773069285" />
+      <entry key="M2" value="5.583288054662602" />
+      <entry key="M5" value="8.22017292044572" />
+      <entry key="M10" value="9.789976972488533" />
+      <entry key="M15" value="10.442081707247443" />
+      <entry key="M30" value="11.174723825436434" />
+      <entry key="H1" value="11.5749560837826" />
+      <entry key="H2" value="11.787850809186596" />
+      <entry key="H4" value="11.99506954417665" />
+      <entry key="D1" value="13.694163243998442" />
+      <entry key="W1" value="14.766456891554292" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
@@ -154,11 +134,39 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1790685721550</updated>
-      <workItem from="1790685722551" duration="2610000" />
+      <workItem from="1790685722551" duration="3380000" />
     </task>
+    <task id="LOCAL-00001" summary="Simplify code structure, remove comments, and consistently apply alias imports">
+      <option name="closed" value="true" />
+      <created>1790757256456</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1790757256456</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add project configuration for linting, formatting, and pre-commit hooks">
+      <option name="closed" value="true" />
+      <created>1790757274751</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1790757274751</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Implement Alps MeteoGIS Studio with Vedro, MapLibre, Recharts and handwritten spatial engines" />
+    <MESSAGE value="Implement rec" />
+    <MESSAGE value="Simplify code structure, remove comments, and consistently apply alias imports" />
+    <MESSAGE value="Add project configuration for linting, formatting, and pre-commit hooks" />
+    <MESSAGE value="feat: complete Alps MeteoGIS Studio with Vedro, MapLibre, Recharts and handwritten spatial engines" />
+    <MESSAGE value="Complete Alps MeteoGIS Studio with Vedro, MapLibre, Recharts and handwritten spatial engines" />
+    <MESSAGE value="style: polish layout, single-line header, and responsive panel alignments" />
+    <MESSAGE value="Polish layout, single-line header, and responsive panel alignments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Polish layout, single-line header, and responsive panel alignments" />
   </component>
 </project>
