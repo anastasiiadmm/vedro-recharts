@@ -80,16 +80,16 @@ export const Timeline: React.FC = () => {
       className="glass-panel"
       style={{
         position: 'absolute',
-        bottom: 20,
+        bottom: 14,
         left: '50%',
         transform: 'translateX(-50%)',
-        width: 'min(920px, calc(100vw - 32px))',
+        width: 'min(900px, calc(100vw - 28px))',
         zIndex: 25,
-        borderRadius: 16,
-        padding: '12px 20px',
+        borderRadius: 14,
+        padding: '10px 18px',
         display: 'flex',
         flexDirection: 'column',
-        gap: 8,
+        gap: 6,
       }}
     >
       {/* Top Bar: Playback Controls & Current Time & Speed Selector */}

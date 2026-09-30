@@ -13,23 +13,35 @@ import { generateWindBarbSvg } from '../../services/spatialMath';
 const BASEMAP_STYLE: StyleSpecification = {
   version: 8,
   sources: {
-    'osm-tiles': {
+    'esri-dark-base': {
       type: 'raster',
       tiles: [
-        'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
       ],
       tileSize: 256,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        '&copy; <a href="https://www.esri.com">Esri</a>, HERE, Garmin, &copy; OpenStreetMap contributors',
+    },
+    'esri-dark-reference': {
+      type: 'raster',
+      tiles: [
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+      ],
+      tileSize: 256,
     },
   },
   layers: [
     {
-      id: 'osm-tiles-layer',
+      id: 'esri-dark-base-layer',
       type: 'raster',
-      source: 'osm-tiles',
+      source: 'esri-dark-base',
+      minzoom: 0,
+      maxzoom: 19,
+    },
+    {
+      id: 'esri-dark-reference-layer',
+      type: 'raster',
+      source: 'esri-dark-reference',
       minzoom: 0,
       maxzoom: 19,
     },
@@ -246,10 +258,9 @@ export const MapContainer: React.FC = () => {
       const el = document.createElement('div');
       el.className = 'station-marker-container';
       el.style.cursor = 'pointer';
-      el.style.transform = 'translate(-50%, -50%)';
 
       el.innerHTML = `
-        <div style="
+        <div class="station-marker-inner" style="
           display: flex;
           align-items: center;
           gap: 5px;
@@ -263,7 +274,6 @@ export const MapContainer: React.FC = () => {
           font-family: 'Inter', sans-serif;
           font-size: 11px;
           font-weight: 600;
-          transition: all 0.2s ease;
           user-select: none;
         ">
           <div style="
@@ -290,14 +300,6 @@ export const MapContainer: React.FC = () => {
           isSelected ? null : station.id,
           store
         );
-      });
-
-      // Hover Effect
-      el.addEventListener('mouseenter', () => {
-        el.style.transform = 'translate(-50%, -50%) scale(1.1)';
-      });
-      el.addEventListener('mouseleave', () => {
-        el.style.transform = 'translate(-50%, -50%) scale(1)';
       });
 
       const marker = new maplibregl.Marker({ element: el })

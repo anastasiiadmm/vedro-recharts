@@ -48,10 +48,10 @@ export const AnalyticsPanel: React.FC = () => {
       className="glass-panel"
       style={{
         position: 'absolute',
-        top: 88,
-        right: 16,
-        width: 440,
-        maxHeight: 'calc(100vh - 210px)',
+        top: 72,
+        right: 14,
+        width: 420,
+        maxHeight: 'calc(100vh - 180px)',
         zIndex: 20,
         borderRadius: 14,
         display: 'flex',

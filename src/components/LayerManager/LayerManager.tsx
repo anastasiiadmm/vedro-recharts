@@ -49,10 +49,10 @@ export const LayerManager: React.FC = () => {
       className="glass-panel"
       style={{
         position: 'absolute',
-        top: 88,
-        left: 16,
-        width: 310,
-        maxHeight: 'calc(100vh - 210px)',
+        top: 72,
+        left: 14,
+        width: 300,
+        maxHeight: 'calc(100vh - 180px)',
         zIndex: 20,
         borderRadius: 14,
         display: 'flex',
