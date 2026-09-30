@@ -9,6 +9,7 @@ import {
 import { TimeSeriesChart } from '@/components/Analytics/TimeSeriesChart';
 import { MetricCards } from '@/components/Analytics/MetricCards';
 import { WindRoseChart } from '@/components/Analytics/WindRoseChart';
+import '@/components/Analytics/Analytics.scss';
 
 export const AnalyticsPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,31 +35,8 @@ export const AnalyticsPanel: React.FC = () => {
   ];
 
   return (
-    <section
-      aria-label="Spatio-Temporal Analytics Panel"
-      className="glass-panel"
-      style={{
-        position: 'absolute',
-        top: 72,
-        right: 14,
-        width: 420,
-        maxHeight: 'calc(100vh - 180px)',
-        zIndex: 20,
-        borderRadius: 14,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          padding: '12px 16px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+    <section aria-label="Spatio-Temporal Analytics Panel" className="analytics-panel glass-panel">
+      <div className="analytics-panel__header">
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <TrendingUp size={18} color="#06b6d4" />
           <h2 style={{ fontSize: 14, fontWeight: 600 }}>Spatio-Temporal Analytics</h2>
@@ -66,80 +44,36 @@ export const AnalyticsPanel: React.FC = () => {
 
         <button
           onClick={() => dispatch({ isAnalyticsOpen: false })}
-          style={{
-            padding: 4,
-            borderRadius: 6,
-            color: '#94a3b8',
-          }}
+          className="analytics-panel__close-btn"
           title="Close Panel"
         >
           <X size={16} />
         </button>
       </div>
 
-      <div
-        style={{
-          padding: 14,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12,
-          overflowY: 'auto',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: 'rgba(255, 255, 255, 0.04)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: 8,
-            padding: '6px 10px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, flex: 1 }}>
-            <MapPin size={14} color="#38bdf8" />
-            <select
-              value={selectedStationId || ''}
-              onChange={(e) =>
-                AppStoreActions.selectStation(
-                  dispatch,
-                  e.target.value ? e.target.value : null,
-                  store
-                )
-              }
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: '#f8fafc',
-                fontSize: 12,
-                cursor: 'pointer',
-                outline: 'none',
-                width: '100%',
-              }}
-            >
-              <option value="" style={{ background: '#0f172a' }}>
-                📍 Entire Alpine Region (Mean Aggregation)
+      <div className="analytics-panel__body">
+        <div className="analytics-panel__station-bar">
+          <MapPin size={14} color="#38bdf8" />
+          <select
+            value={selectedStationId || ''}
+            onChange={(e) =>
+              AppStoreActions.selectStation(dispatch, e.target.value ? e.target.value : null, store)
+            }
+            className="analytics-panel__station-select"
+          >
+            <option value="">📍 Entire Alpine Region (Mean Aggregation)</option>
+            {stations.map((s) => (
+              <option key={s.id} value={s.id}>
+                📍 {s.name} ({s.elevation}m)
               </option>
-              {stations.map((s) => (
-                <option key={s.id} value={s.id} style={{ background: '#0f172a' }}>
-                  📍 {s.name} ({s.elevation}m)
-                </option>
-              ))}
-            </select>
-          </div>
+            ))}
+          </select>
 
           {selectedStationId && (
             <button
               onClick={() => AppStoreActions.selectStation(dispatch, null)}
-              style={{
-                fontSize: 11,
-                color: '#94a3b8',
-                background: 'rgba(255, 255, 255, 0.08)',
-                padding: '2px 6px',
-                borderRadius: 4,
-                marginLeft: 6,
-              }}
+              className="glass-button"
+              style={{ padding: '2px 6px', fontSize: 11 }}
             >
               Reset
             </button>
@@ -148,19 +82,19 @@ export const AnalyticsPanel: React.FC = () => {
 
         <MetricCards />
 
-        <div style={{ display: 'flex', gap: 6 }}>
+        <div className="analytics-panel__tabs">
           <button
             onClick={() => setActiveTab('timeseries')}
-            className={`glass-button ${activeTab === 'timeseries' ? 'active' : ''}`}
-            style={{ flex: 1, justifyContent: 'center', fontSize: 11, padding: '5px 8px' }}
+            className={`analytics-panel__tab-btn ${activeTab === 'timeseries' ? 'active' : ''}`}
+            style={{ flex: 1, justifyContent: 'center' }}
           >
             <Activity size={13} />
             <span>Time Series (Recharts)</span>
           </button>
           <button
             onClick={() => setActiveTab('windrose')}
-            className={`glass-button ${activeTab === 'windrose' ? 'active' : ''}`}
-            style={{ flex: 1, justifyContent: 'center', fontSize: 11, padding: '5px 8px' }}
+            className={`analytics-panel__tab-btn ${activeTab === 'windrose' ? 'active' : ''}`}
+            style={{ flex: 1, justifyContent: 'center' }}
           >
             <Compass size={13} />
             <span>Wind Rose (Polar)</span>
@@ -169,57 +103,20 @@ export const AnalyticsPanel: React.FC = () => {
 
         {activeTab === 'timeseries' ? (
           <>
-            <div style={{ display: 'flex', gap: 4 }}>
+            <div className="analytics-panel__metric-filters">
               {metrics.map((m) => (
                 <button
                   key={m.id}
                   onClick={() => dispatch({ activeChartMetric: m.id })}
-                  style={{
-                    flex: 1,
-                    padding: '4px 6px',
-                    borderRadius: 6,
-                    fontSize: 11,
-                    fontWeight: 500,
-                    textAlign: 'center',
-                    background:
-                      activeChartMetric === m.id
-                        ? 'rgba(6, 182, 212, 0.2)'
-                        : 'rgba(255, 255, 255, 0.04)',
-                    border:
-                      activeChartMetric === m.id
-                        ? '1px solid var(--accent-cyan)'
-                        : '1px solid rgba(255, 255, 255, 0.06)',
-                    color: activeChartMetric === m.id ? '#38bdf8' : '#94a3b8',
-                  }}
+                  className={`analytics-panel__metric-pill ${activeChartMetric === m.id ? 'active' : ''}`}
+                  style={{ flex: 1, textAlign: 'center' }}
                 >
                   {m.label}
                 </button>
               ))}
             </div>
 
-            <div
-              style={{
-                background: 'rgba(15, 23, 42, 0.6)',
-                borderRadius: 10,
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                padding: '10px 8px 4px 8px',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 11,
-                  color: '#94a3b8',
-                  marginBottom: 4,
-                  paddingLeft: 8,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <span>24-Hour Diurnal Progression</span>
-                <span style={{ fontSize: 10, color: '#38bdf8' }}>Interactive Click Sync</span>
-              </div>
-
+            <div className="timeseries-chart-wrap">
               <TimeSeriesChart />
             </div>
           </>

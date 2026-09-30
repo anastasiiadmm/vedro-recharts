@@ -6,20 +6,13 @@ import { MapContainer } from '@/components/Map/MapContainer';
 import { LayerManager } from '@/components/LayerManager/LayerManager';
 import { AnalyticsPanel } from '@/components/Analytics/AnalyticsPanel';
 import { Timeline } from '@/components/Timeline/Timeline';
+import '@/App.scss';
 
 const DashboardContent: React.FC = () => {
   useGisDataLoader();
 
   return (
-    <main
-      style={{
-        position: 'relative',
-        width: '100vw',
-        height: '100vh',
-        overflow: 'hidden',
-        background: '#0a0f1d',
-      }}
-    >
+    <main className="app-layout">
       <MapContainer />
       <Header />
       <LayerManager />

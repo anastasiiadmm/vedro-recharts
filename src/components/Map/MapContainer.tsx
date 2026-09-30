@@ -9,6 +9,7 @@ import {
 import { GisLayerRenderer } from '@/components/Map/layers/gisLayerManager';
 import { CanvasWindParticleEngine } from '@/components/Map/layers/CanvasWindParticleLayer';
 import { generateWindBarbSvg } from '@/services/spatialMath';
+import '@/components/Map/MapContainer.scss';
 
 const BASEMAP_STYLE: StyleSpecification = {
   version: 8,
@@ -252,36 +253,14 @@ export const MapContainer: React.FC = () => {
 
       const el = document.createElement('div');
       el.className = 'station-marker-container';
-      el.style.cursor = 'pointer';
 
       el.innerHTML = `
-        <div class="station-marker-inner" style="
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          background: ${isSelected ? 'rgba(6, 182, 212, 0.95)' : 'rgba(15, 23, 42, 0.9)'};
-          backdrop-filter: blur(8px);
-          border: 1.5px solid ${isSelected ? '#38bdf8' : 'rgba(255, 255, 255, 0.2)'};
-          box-shadow: ${isSelected ? '0 0 16px rgba(6, 182, 212, 0.8)' : '0 4px 12px rgba(0,0,0,0.5)'};
-          padding: 3px 8px;
-          border-radius: 20px;
-          color: #ffffff;
-          font-family: 'Inter', sans-serif;
-          font-size: 11px;
-          font-weight: 600;
-          user-select: none;
-        ">
-          <div style="
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: ${isSelected ? '#ffffff' : '#38bdf8'};
-            box-shadow: 0 0 6px #38bdf8;
-          "></div>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;">
+        <div class="station-marker-inner ${isSelected ? 'selected' : ''}">
+          <div class="station-marker-dot ${isSelected ? 'selected' : ''}"></div>
+          <span class="station-marker-temp">
             ${tempVal}
           </span>
-          <span style="font-size: 10px; color: ${isSelected ? '#f0fdf4' : '#94a3b8'}; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          <span class="station-marker-name ${isSelected ? 'selected' : ''}">
             ${station.name.split(' ')[0]}
           </span>
         </div>
@@ -300,17 +279,5 @@ export const MapContainer: React.FC = () => {
     });
   }, [stations, selectedStationId, currentTimeIndex, stationTimeSeries, dispatch, store]);
 
-  return (
-    <div
-      ref={mapContainerRef}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: '#090d16',
-      }}
-    />
-  );
+  return <div ref={mapContainerRef} className="map-viewport" />;
 };

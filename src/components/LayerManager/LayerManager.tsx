@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Thermometer,
   Wind,
@@ -14,6 +14,7 @@ import {
 import { useAppDispatch, useAppSelector, AppStoreActions } from '@/store/appStore';
 import { LayerId } from '@/types/gis.types';
 import { LayerLegend } from '@/components/LayerManager/LayerLegend';
+import '@/components/LayerManager/LayerManager.scss';
 
 const LAYER_ICONS: Record<string, React.FC<{ size?: number; color?: string }>> = {
   Thermometer: (props) => <Thermometer {...props} color="#f43f5e" />,
@@ -24,7 +25,7 @@ const LAYER_ICONS: Record<string, React.FC<{ size?: number; color?: string }>> =
 
 export const LayerManager: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [expandedLayerId, setExpandedLayerId] = React.useState<LayerId | null>('temperature');
+  const [expandedLayerId, setExpandedLayerId] = useState<LayerId | null>('temperature');
 
   const { layers, activeLayerIds, isSidebarOpen } = useAppSelector((state) => ({
     layers: state.layers,
@@ -41,138 +42,44 @@ export const LayerManager: React.FC = () => {
   };
 
   return (
-    <aside
-      className="glass-panel"
-      style={{
-        position: 'absolute',
-        top: 72,
-        left: 14,
-        width: 300,
-        maxHeight: 'calc(100vh - 180px)',
-        zIndex: 20,
-        borderRadius: 14,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          padding: '14px 16px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+    <aside className="layer-manager-panel glass-panel">
+      <div className="layer-manager-panel__header">
+        <div className="layer-manager-panel__title-wrap">
           <Layers size={17} color="#38bdf8" />
-          <h2 style={{ fontSize: 14, fontWeight: 600 }}>GIS Layers</h2>
+          <h2 className="layer-manager-panel__title">GIS Layers</h2>
         </div>
 
-        <span
-          style={{
-            fontSize: 11,
-            color: '#94a3b8',
-            background: 'rgba(255, 255, 255, 0.06)',
-            padding: '2px 8px',
-            borderRadius: 12,
-          }}
-        >
+        <span className="layer-manager-panel__badge">
           {activeLayerIds.length} / {layerList.length} active
         </span>
       </div>
 
-      <div
-        style={{
-          padding: '12px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 10,
-          overflowY: 'auto',
-        }}
-      >
+      <div className="layer-manager-panel__list">
         {layerList.map((layer) => {
           const isActive = activeLayerIds.includes(layer.id);
           const isExpanded = expandedLayerId === layer.id;
           const IconComponent = LAYER_ICONS[layer.iconName] || Layers;
 
           return (
-            <div
-              key={layer.id}
-              style={{
-                borderRadius: 10,
-                background: isActive ? 'rgba(30, 41, 59, 0.7)' : 'rgba(15, 23, 42, 0.4)',
-                border: isActive
-                  ? '1px solid rgba(56, 189, 248, 0.3)'
-                  : '1px solid rgba(255, 255, 255, 0.06)',
-                padding: '10px 12px',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div
-                  onClick={() => toggleExpand(layer.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    cursor: 'pointer',
-                    flex: 1,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: 6,
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
+            <div key={layer.id} className={`layer-card ${isActive ? 'active' : ''}`}>
+              <div className="layer-card__header">
+                <div onClick={() => toggleExpand(layer.id)} className="layer-card__info">
+                  <div className="layer-card__icon-box">
                     <IconComponent size={16} />
                   </div>
 
                   <div>
-                    <div
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: isActive ? '#f8fafc' : '#94a3b8',
-                      }}
-                    >
-                      {layer.name}
-                    </div>
-                    <div style={{ fontSize: 10, color: '#64748b' }}>
+                    <span className="layer-card__title">{layer.name}</span>
+                    <span className="layer-card__unit">
                       {layer.unit} • {layer.type}
-                    </div>
+                    </span>
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div className="layer-card__actions">
                   <button
                     onClick={() => AppStoreActions.toggleLayer(dispatch, layer.id)}
-                    style={{
-                      width: 30,
-                      height: 30,
-                      borderRadius: 6,
-                      background: isActive ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                      border: isActive
-                        ? '1px solid var(--accent-cyan)'
-                        : '1px solid rgba(255, 255, 255, 0.1)',
-                      color: isActive ? '#38bdf8' : '#64748b',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
+                    className={`layer-card__toggle-btn ${isActive ? 'active' : ''}`}
                     title={isActive ? 'Disable Layer' : 'Enable Layer'}
                   >
                     {isActive ? <Eye size={15} /> : <EyeOff size={15} />}
@@ -180,10 +87,7 @@ export const LayerManager: React.FC = () => {
 
                   <button
                     onClick={() => toggleExpand(layer.id)}
-                    style={{
-                      padding: 4,
-                      color: '#94a3b8',
-                    }}
+                    className="layer-card__collapse-btn"
                   >
                     {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                   </button>
@@ -191,20 +95,14 @@ export const LayerManager: React.FC = () => {
               </div>
 
               {isExpanded && (
-                <div
-                  style={{
-                    marginTop: 10,
-                    paddingTop: 10,
-                    borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-                  }}
-                >
-                  <p style={{ fontSize: 11, color: '#94a3b8', marginBottom: 8, lineHeight: 1.4 }}>
-                    {layer.description}
-                  </p>
+                <div className="layer-card__controls">
+                  <p className="layer-card__description">{layer.description}</p>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11 }}>
-                    <Sliders size={12} color="#94a3b8" />
-                    <span style={{ color: '#94a3b8', minWidth: 44 }}>Opacity</span>
+                  <div className="layer-card__opacity-row">
+                    <div className="layer-card__opacity-label-group">
+                      <Sliders size={12} color="#94a3b8" />
+                      <span>Opacity</span>
+                    </div>
                     <input
                       type="range"
                       min="0.1"
@@ -219,17 +117,9 @@ export const LayerManager: React.FC = () => {
                           parseFloat(e.target.value)
                         )
                       }
-                      style={{ flex: 1, height: 4 }}
+                      className="layer-card__slider"
                     />
-                    <span
-                      style={{
-                        minWidth: 32,
-                        textAlign: 'right',
-                        fontFamily: 'JetBrains Mono, monospace',
-                        fontSize: 10,
-                        color: '#cbd5e1',
-                      }}
-                    >
+                    <span className="layer-card__opacity-val">
                       {Math.round(layer.opacity * 100)}%
                     </span>
                   </div>

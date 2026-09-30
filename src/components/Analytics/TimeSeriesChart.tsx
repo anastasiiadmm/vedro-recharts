@@ -18,6 +18,7 @@ import {
   AppStoreActions,
 } from '@/store/appStore';
 import { StationTimeSeriesPoint } from '@/types/gis.types';
+import '@/components/Analytics/Analytics.scss';
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -30,43 +31,16 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
   if (!active || !payload || payload.length === 0) return null;
 
   return (
-    <div
-      style={{
-        background: 'rgba(15, 23, 42, 0.95)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(56, 189, 248, 0.3)',
-        borderRadius: 8,
-        padding: '10px 14px',
-        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
-        fontSize: 12,
-        color: '#f8fafc',
-      }}
-    >
-      <div
-        style={{
-          fontWeight: 700,
-          fontFamily: 'JetBrains Mono, monospace',
-          marginBottom: 6,
-          color: '#38bdf8',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          paddingBottom: 4,
-        }}
-      >
-        Hour: {label}
-      </div>
+    <div className="chart-tooltip">
+      <div className="chart-tooltip__header">Hour: {label}</div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         {payload.map((item: any, index: number) => (
-          <div
-            key={index}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 16,
-            }}
-          >
-            <span style={{ color: item.color, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div key={index} className="chart-tooltip__row">
+            <span
+              className="chart-tooltip__row-label"
+              style={{ color: item.color, display: 'flex', alignItems: 'center', gap: 6 }}
+            >
               <span
                 style={{
                   width: 8,
@@ -78,13 +52,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
               />
               {item.name}:
             </span>
-            <span
-              style={{
-                fontWeight: 600,
-                fontFamily: 'JetBrains Mono, monospace',
-                color: '#f8fafc',
-              }}
-            >
+            <span className="chart-tooltip__row-val">
               {item.value} {item.unit || ''}
             </span>
           </div>

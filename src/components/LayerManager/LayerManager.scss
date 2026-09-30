@@ -1,0 +1,156 @@
+@use '@/styles/variables' as *;
+
+.layer-manager-panel {
+  position: absolute;
+  top: 76px;
+  left: 14px;
+  z-index: 20;
+  width: 280px;
+  max-height: calc(100vh - 200px);
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid $border-light;
+  }
+
+  &__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  &__badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(6, 182, 212, 0.15);
+    color: $accent-cyan;
+  }
+
+  &__collapse-btn {
+    color: $text-muted;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+
+  &__list {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+  }
+}
+
+.layer-card {
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+
+  &.active {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(56, 189, 248, 0.2);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__title {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  &__unit {
+    font-size: 10px;
+    color: $text-subtle;
+    margin-left: 4px;
+  }
+
+  &__toggle-btn {
+    padding: 3px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    color: $text-muted;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+
+  &__controls {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__opacity-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    color: $text-muted;
+  }
+
+  &__opacity-val {
+    font-family: $font-mono;
+    color: $text-secondary;
+  }
+
+  &__slider {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.layer-legend {
+  margin-top: 4px;
+
+  &__bar {
+    height: 6px;
+    border-radius: 3px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    font-family: $font-mono;
+    color: $text-subtle;
+    margin-top: 2px;
+  }
+}

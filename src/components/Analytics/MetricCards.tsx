@@ -1,6 +1,7 @@
 import React from 'react';
 import { Thermometer, Wind, Sun, Gauge } from 'lucide-react';
 import { useAppSelector } from '@/store/appStore';
+import '@/components/Analytics/Analytics.scss';
 
 export const MetricCards: React.FC = () => {
   const { currentMetrics, selectedStationId, stationTimeSeries, currentTimeIndex } = useAppSelector(
@@ -69,45 +70,24 @@ export const MetricCards: React.FC = () => {
   ];
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: 8,
-      }}
-    >
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
       {cards.map((card) => {
         const Icon = card.icon;
         return (
           <div
             key={card.title}
-            style={{
-              padding: '8px 10px',
-              borderRadius: 8,
-              background: card.bgColor,
-              border: `1px solid ${card.borderColor}`,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-            }}
+            className="kpi-card"
+            style={{ background: card.bgColor, borderColor: card.borderColor }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 500 }}>{card.title}</span>
+            <div className="kpi-card__header">
+              <span className="kpi-card__label" style={{ flex: 1 }}>
+                {card.title}
+              </span>
               <Icon size={14} color={card.iconColor} />
             </div>
 
-            <div
-              style={{
-                fontSize: 16,
-                fontWeight: 700,
-                color: '#f8fafc',
-                fontFamily: 'JetBrains Mono, monospace',
-              }}
-            >
-              {card.value}
-            </div>
-
-            <div style={{ fontSize: 9, color: '#64748b' }}>{card.subtext}</div>
+            <div className="kpi-card__value">{card.value}</div>
+            <div className="kpi-card__range">{card.subtext}</div>
           </div>
         );
       })}

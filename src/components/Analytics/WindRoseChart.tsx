@@ -1,6 +1,7 @@
 import React from 'react';
 import { computeWindRoseData } from '@/services/spatialMath';
 import { useAppSelector } from '@/store/appStore';
+import '@/components/Analytics/Analytics.scss';
 
 export const WindRoseChart: React.FC = () => {
   const { selectedStationId, stationTimeSeries, regionTimeSeries } = useAppSelector((state) => ({
@@ -23,7 +24,6 @@ export const WindRoseChart: React.FC = () => {
   const maxRadius = size * 0.38;
 
   const maxCount = Math.max(...roseData.map((d) => d.calm + d.moderate + d.strong + d.gale), 4);
-
   const sectors = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
   return (
@@ -141,28 +141,19 @@ export const WindRoseChart: React.FC = () => {
         <circle cx={center} cy={center} r={3} fill="#06b6d4" />
       </svg>
 
-      <div
-        style={{
-          display: 'flex',
-          gap: 12,
-          marginTop: 6,
-          fontSize: 9,
-          color: '#94a3b8',
-          fontFamily: 'JetBrains Mono, monospace',
-        }}
-      >
-        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#a8dadc' }} />
+      <div className="wind-rose__legend">
+        <div className="wind-rose__legend-item">
+          <span className="wind-rose__color-box" style={{ background: '#a8dadc' }} />
           Calm (&lt;5 m/s)
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8' }} />
+        </div>
+        <div className="wind-rose__legend-item">
+          <span className="wind-rose__color-box" style={{ background: '#38bdf8' }} />
           Moderate (5-12 m/s)
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ef4444' }} />
+        </div>
+        <div className="wind-rose__legend-item">
+          <span className="wind-rose__color-box" style={{ background: '#ef4444' }} />
           Strong (&gt;18 m/s)
-        </span>
+        </div>
       </div>
     </div>
   );
