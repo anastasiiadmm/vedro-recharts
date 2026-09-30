@@ -11,13 +11,9 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import {
-  useAppDispatch,
-  useAppSelector,
-  AppStoreActions,
-} from '../../store/appStore';
-import { LayerId } from '../../types/gis.types';
-import { LayerLegend } from './LayerLegend';
+import { useAppDispatch, useAppSelector, AppStoreActions } from '@/store/appStore';
+import { LayerId } from '@/types/gis.types';
+import { LayerLegend } from '@/components/LayerManager/LayerLegend';
 
 const LAYER_ICONS: Record<string, React.FC<{ size?: number; color?: string }>> = {
   Thermometer: (props) => <Thermometer {...props} color="#f43f5e" />,
@@ -60,7 +56,6 @@ export const LayerManager: React.FC = () => {
         overflow: 'hidden',
       }}
     >
-      {/* Header */}
       <div
         style={{
           padding: '14px 16px',
@@ -88,7 +83,6 @@ export const LayerManager: React.FC = () => {
         </span>
       </div>
 
-      {/* Layer List */}
       <div
         style={{
           padding: '12px',
@@ -116,7 +110,6 @@ export const LayerManager: React.FC = () => {
                 transition: 'all 0.2s ease',
               }}
             >
-              {/* Main Row */}
               <div
                 style={{
                   display: 'flex',
@@ -165,16 +158,13 @@ export const LayerManager: React.FC = () => {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  {/* Visibility Toggle */}
                   <button
                     onClick={() => AppStoreActions.toggleLayer(dispatch, layer.id)}
                     style={{
                       width: 30,
                       height: 30,
                       borderRadius: 6,
-                      background: isActive
-                        ? 'rgba(6, 182, 212, 0.2)'
-                        : 'rgba(255, 255, 255, 0.05)',
+                      background: isActive ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.05)',
                       border: isActive
                         ? '1px solid var(--accent-cyan)'
                         : '1px solid rgba(255, 255, 255, 0.1)',
@@ -188,7 +178,6 @@ export const LayerManager: React.FC = () => {
                     {isActive ? <Eye size={15} /> : <EyeOff size={15} />}
                   </button>
 
-                  {/* Expand button */}
                   <button
                     onClick={() => toggleExpand(layer.id)}
                     style={{
@@ -201,7 +190,6 @@ export const LayerManager: React.FC = () => {
                 </div>
               </div>
 
-              {/* Collapsible Details: Opacity & Legend */}
               {isExpanded && (
                 <div
                   style={{
@@ -214,7 +202,6 @@ export const LayerManager: React.FC = () => {
                     {layer.description}
                   </p>
 
-                  {/* Opacity Slider */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11 }}>
                     <Sliders size={12} color="#94a3b8" />
                     <span style={{ color: '#94a3b8', minWidth: 44 }}>Opacity</span>
@@ -247,7 +234,6 @@ export const LayerManager: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Color Scale Legend */}
                   {layer.colorScale && (
                     <LayerLegend colorScale={layer.colorScale} unit={layer.unit} />
                   )}

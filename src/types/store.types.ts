@@ -1,4 +1,11 @@
-import { LayerConfig, LayerId, TimePoint, WeatherStation, StationTimeSeriesPoint, AggregatedMetrics } from './gis.types';
+import {
+  LayerConfig,
+  LayerId,
+  TimePoint,
+  WeatherStation,
+  StationTimeSeriesPoint,
+  AggregatedMetrics,
+} from '@/types/gis.types';
 
 export interface MapViewState {
   center: [number, number]; // [lng, lat]

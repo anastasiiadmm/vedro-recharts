@@ -1,7 +1,6 @@
-import { INITIAL_STATIONS, INITIAL_TIME_POINTS } from '../constants/mockData';
-import { AggregatedMetrics, StationTimeSeriesPoint, WeatherSnapshot, WeatherStation } from '../types/gis.types';
+import { INITIAL_STATIONS, INITIAL_TIME_POINTS } from '@/constants/mockData';
+import { AggregatedMetrics, StationTimeSeriesPoint, WeatherStation } from '@/types/gis.types';
 
-// Spatial Bounding Box for Alps / Bavaria Region
 const BOUNDS = {
   minLng: 8.4,
   maxLng: 13.6,
@@ -9,29 +8,18 @@ const BOUNDS = {
   maxLat: 48.6,
 };
 
-/**
- * Calculates diurnal cycle multiplier (-1 to +1) based on hour of day
- */
 function getDiurnalFactor(hour: number): number {
-  // Coldest at 05:00 (-1.0), hottest at 15:00 (+1.0)
   return Math.sin(((hour - 9) / 24) * 2 * Math.PI);
 }
 
-/**
- * Calculates solar elevation intensity (0 to 1) based on hour of day
- */
 function getSolarFactor(hour: number): number {
   if (hour < 6 || hour > 19) return 0;
-  // Peak at 13:00
   const angle = ((hour - 6) / 13) * Math.PI;
   return Math.max(0, Math.sin(angle));
 }
 
-/**
- * Generates 24-hour weather time-series for a specific station
- */
 export function generateStationTimeSeries(station: WeatherStation): StationTimeSeriesPoint[] {
-  const elevationFactor = (station.elevation / 1000) * 6.5; // ~6.5°C colder per 1000m
+  const elevationFactor = (station.elevation / 1000) * 6.5;
   const baseTemp = 18 - elevationFactor;
   const baseWind = 4 + (station.elevation / 800) * 4;
 
@@ -40,21 +28,22 @@ export function generateStationTimeSeries(station: WeatherStation): StationTimeS
     const diurnal = getDiurnalFactor(hour);
     const solarFactor = getSolarFactor(hour);
 
-    // Realistic micro-variation
     const tempNoise = Math.sin(station.coordinates[0] * 3 + hour) * 1.5;
     const temp = Math.round((baseTemp + diurnal * 7.5 + tempNoise) * 10) / 10;
 
-    // Wind shifts: valley breeze up-valley (180°-220°) in afternoon, down-valley (0°-40°) at night
-    const windDir = Math.round((45 + diurnal * 120 + (station.coordinates[1] * 10) % 360 + 360) % 360);
-    const windSpeed = Math.max(0.5, Math.round((baseWind + diurnal * 4.5 + Math.cos(hour * 0.8) * 2) * 10) / 10);
+    const windDir = Math.round(
+      (45 + diurnal * 120 + ((station.coordinates[1] * 10) % 360) + 360) % 360
+    );
+    const windSpeed = Math.max(
+      0.5,
+      Math.round((baseWind + diurnal * 4.5 + Math.cos(hour * 0.8) * 2) * 10) / 10
+    );
 
-    // Solar radiation (W/m²)
     const cloudFactor = 0.85 + Math.sin(station.coordinates[0] * 2 + hour) * 0.15;
     const solar = Math.round(solarFactor * 920 * cloudFactor);
 
-    // Humidity (%) inversely proportional to temperature
     const humidity = Math.min(95, Math.max(25, Math.round(75 - diurnal * 30 + Math.sin(hour) * 5)));
-    const pressure = Math.round(1013 - (station.elevation / 8.5));
+    const pressure = Math.round(1013 - station.elevation / 8.5);
 
     return {
       timestamp: tp.timestamp,
@@ -70,9 +59,6 @@ export function generateStationTimeSeries(station: WeatherStation): StationTimeS
   });
 }
 
-/**
- * Pre-computes time-series for all stations and regional average
- */
 export function generateAllStationTimeSeries(): {
   stationsSeries: Record<string, StationTimeSeriesPoint[]>;
   regionalSeries: StationTimeSeriesPoint[];
@@ -83,7 +69,6 @@ export function generateAllStationTimeSeries(): {
     stationsSeries[station.id] = generateStationTimeSeries(station);
   });
 
-  // Calculate Regional Mean Series across all stations
   const regionalSeries: StationTimeSeriesPoint[] = INITIAL_TIME_POINTS.map((tp, idx) => {
     let sumTemp = 0;
     let sumWind = 0;
@@ -117,14 +102,10 @@ export function generateAllStationTimeSeries(): {
   return { stationsSeries, regionalSeries };
 }
 
-/**
- * Generates GeoJSON FeatureCollection for Temperature Layer
- */
 export function generateTemperatureGeoJson(hour: number): GeoJSON.FeatureCollection {
   const features: GeoJSON.Feature[] = [];
   const diurnal = getDiurnalFactor(hour);
 
-  // Generate dense spatial grid for smooth heatmap
   const lngSteps = 18;
   const latSteps = 14;
   const lngDelta = (BOUNDS.maxLng - BOUNDS.minLng) / lngSteps;
@@ -135,7 +116,6 @@ export function generateTemperatureGeoJson(hour: number): GeoJSON.FeatureCollect
       const lng = BOUNDS.minLng + i * lngDelta;
       const lat = BOUNDS.minLat + j * latDelta;
 
-      // Simulated topography (Alps ridge in center ~lat 47.1, lower in north ~48.2)
       const distFromAlps = Math.abs(lat - 47.2);
       const estElevation = Math.max(300, 2400 - distFromAlps * 1800);
       const lapseRate = (estElevation / 1000) * 6.0;
@@ -159,10 +139,12 @@ export function generateTemperatureGeoJson(hour: number): GeoJSON.FeatureCollect
     }
   }
 
-  // Include station points with detailed attributes
   INITIAL_STATIONS.forEach((st) => {
     const elevationFactor = (st.elevation / 1000) * 6.5;
-    const temp = Math.round((18 - elevationFactor + diurnal * 7.5 + Math.sin(st.coordinates[0] * 2) * 1.5) * 10) / 10;
+    const temp =
+      Math.round(
+        (18 - elevationFactor + diurnal * 7.5 + Math.sin(st.coordinates[0] * 2) * 1.5) * 10
+      ) / 10;
     features.push({
       type: 'Feature',
       geometry: {
@@ -186,9 +168,6 @@ export function generateTemperatureGeoJson(hour: number): GeoJSON.FeatureCollect
   };
 }
 
-/**
- * Generates GeoJSON FeatureCollection for Wind Vectors
- */
 export function generateWindGeoJson(hour: number): GeoJSON.FeatureCollection {
   const features: GeoJSON.Feature[] = [];
   const diurnal = getDiurnalFactor(hour);
@@ -203,11 +182,12 @@ export function generateWindGeoJson(hour: number): GeoJSON.FeatureCollection {
       const lng = BOUNDS.minLng + (i + 0.5) * lngDelta;
       const lat = BOUNDS.minLat + (j + 0.5) * latDelta;
 
-      // Complex wind swirl pattern based on alpine topography and time of day
       const baseSpeed = 5 + Math.sin(lng * 1.5 + lat * 1.2) * 3;
-      const speed = Math.max(1, Math.round((baseSpeed + diurnal * 4 + Math.sin(hour * 0.4 + i) * 2.5) * 10) / 10);
+      const speed = Math.max(
+        1,
+        Math.round((baseSpeed + diurnal * 4 + Math.sin(hour * 0.4 + i) * 2.5) * 10) / 10
+      );
 
-      // Wind direction: valley breeze shifts
       const direction = Math.round(
         (180 + Math.atan2(lat - 47.4, lng - 11.0) * (180 / Math.PI) + diurnal * 45 + 360) % 360
       );
@@ -221,7 +201,6 @@ export function generateWindGeoJson(hour: number): GeoJSON.FeatureCollection {
         properties: {
           speed,
           direction,
-          // Beaufort scale level 0-5
           level: speed < 5 ? 1 : speed < 12 ? 2 : speed < 18 ? 3 : 4,
           u: -speed * Math.sin((direction * Math.PI) / 180),
           v: -speed * Math.cos((direction * Math.PI) / 180),
@@ -236,9 +215,6 @@ export function generateWindGeoJson(hour: number): GeoJSON.FeatureCollection {
   };
 }
 
-/**
- * Generates GeoJSON FeatureCollection for Solar Insolation Polygons Grid
- */
 export function generateSolarGeoJson(hour: number): GeoJSON.FeatureCollection {
   const features: GeoJSON.Feature[] = [];
   const solarFactor = getSolarFactor(hour);
@@ -255,24 +231,24 @@ export function generateSolarGeoJson(hour: number): GeoJSON.FeatureCollection {
       const minY = BOUNDS.minLat + j * latDelta;
       const maxY = minY + latDelta;
 
-      // Solar potential varies by south-facing slopes and hour
       const slopeFactor = 0.85 + Math.cos((minY - 46.5) * 4) * 0.15;
       const irradiance = Math.round(solarFactor * 960 * slopeFactor);
 
-      // Dynamic color interpolation
       const normalized = Math.min(1, irradiance / 1000);
 
       features.push({
         type: 'Feature',
         geometry: {
           type: 'Polygon',
-          coordinates: [[
-            [minX, minY],
-            [maxX, minY],
-            [maxX, maxY],
-            [minX, maxY],
-            [minX, minY],
-          ]],
+          coordinates: [
+            [
+              [minX, minY],
+              [maxX, minY],
+              [maxX, maxY],
+              [minX, maxY],
+              [minX, minY],
+            ],
+          ],
         },
         properties: {
           irradiance,
@@ -289,18 +265,6 @@ export function generateSolarGeoJson(hour: number): GeoJSON.FeatureCollection {
   };
 }
 
-/**
- * 3D Meteorological Radar & Facility Coordinates
- */
-export const RADAR_3D_FACILITY = {
-  center: [10.985, 47.421] as [number, number], // Zugspitze Peak Weather Center
-  elevation: 2962,
-  name: 'Zugspitze High-Altitude Doppler Radar & GAW Observatory',
-};
-
-/**
- * Calculates current aggregate metrics for the dashboard KPIs
- */
 export function computeAggregatedMetrics(
   regionalSeries: StationTimeSeriesPoint[],
   currentHour: number

@@ -1,18 +1,17 @@
 import React from 'react';
-import { Thermometer, Wind, Sun, Droplets, Gauge } from 'lucide-react';
-import { useAppSelector } from '../../store/appStore';
+import { Thermometer, Wind, Sun, Gauge } from 'lucide-react';
+import { useAppSelector } from '@/store/appStore';
 
 export const MetricCards: React.FC = () => {
-  const { currentMetrics, selectedStationId, stations, stationTimeSeries, currentTimeIndex } =
-    useAppSelector((state) => ({
+  const { currentMetrics, selectedStationId, stationTimeSeries, currentTimeIndex } = useAppSelector(
+    (state) => ({
       currentMetrics: state.currentMetrics,
       selectedStationId: state.selectedStationId,
-      stations: state.stations,
       stationTimeSeries: state.stationTimeSeries,
       currentTimeIndex: state.currentTimeIndex,
-    }));
+    })
+  );
 
-  // If a specific station is selected, get its exact snapshot
   let currentTemp = currentMetrics.avgTemperature;
   let currentWind = currentMetrics.avgWindSpeed;
   let currentSolar = currentMetrics.avgSolarRadiation;
@@ -93,9 +92,7 @@ export const MetricCards: React.FC = () => {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 500 }}>
-                {card.title}
-              </span>
+              <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 500 }}>{card.title}</span>
               <Icon size={14} color={card.iconColor} />
             </div>
 
@@ -110,9 +107,7 @@ export const MetricCards: React.FC = () => {
               {card.value}
             </div>
 
-            <div style={{ fontSize: 9, color: '#64748b' }}>
-              {card.subtext}
-            </div>
+            <div style={{ fontSize: 9, color: '#64748b' }}>{card.subtext}</div>
           </div>
         );
       })}

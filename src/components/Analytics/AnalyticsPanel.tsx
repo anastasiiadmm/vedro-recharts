@@ -1,37 +1,28 @@
 import React, { useState } from 'react';
-import {
-  TrendingUp,
-  MapPin,
-  X,
-  Compass,
-  Activity,
-} from 'lucide-react';
+import { TrendingUp, MapPin, X, Compass, Activity } from 'lucide-react';
 import {
   useAppDispatch,
   useAppSelector,
   useAppStoreInstance,
   AppStoreActions,
-} from '../../store/appStore';
-import { TimeSeriesChart } from './TimeSeriesChart';
-import { MetricCards } from './MetricCards';
-import { WindRoseChart } from './WindRoseChart';
+} from '@/store/appStore';
+import { TimeSeriesChart } from '@/components/Analytics/TimeSeriesChart';
+import { MetricCards } from '@/components/Analytics/MetricCards';
+import { WindRoseChart } from '@/components/Analytics/WindRoseChart';
 
 export const AnalyticsPanel: React.FC = () => {
   const dispatch = useAppDispatch();
   const store = useAppStoreInstance();
   const [activeTab, setActiveTab] = useState<'timeseries' | 'windrose'>('timeseries');
 
-  const {
-    selectedStationId,
-    stations,
-    activeChartMetric,
-    isAnalyticsOpen,
-  } = useAppSelector((state) => ({
-    selectedStationId: state.selectedStationId,
-    stations: state.stations,
-    activeChartMetric: state.activeChartMetric,
-    isAnalyticsOpen: state.isAnalyticsOpen,
-  }));
+  const { selectedStationId, stations, activeChartMetric, isAnalyticsOpen } = useAppSelector(
+    (state) => ({
+      selectedStationId: state.selectedStationId,
+      stations: state.stations,
+      activeChartMetric: state.activeChartMetric,
+      isAnalyticsOpen: state.isAnalyticsOpen,
+    })
+  );
 
   if (!isAnalyticsOpen) return null;
 
@@ -59,7 +50,6 @@ export const AnalyticsPanel: React.FC = () => {
         overflow: 'hidden',
       }}
     >
-      {/* Header */}
       <div
         style={{
           padding: '12px 16px',
@@ -87,7 +77,6 @@ export const AnalyticsPanel: React.FC = () => {
         </button>
       </div>
 
-      {/* Content */}
       <div
         style={{
           padding: 14,
@@ -97,7 +86,6 @@ export const AnalyticsPanel: React.FC = () => {
           overflowY: 'auto',
         }}
       >
-        {/* Station Filter Dropdown & Status */}
         <div
           style={{
             display: 'flex',
@@ -158,10 +146,8 @@ export const AnalyticsPanel: React.FC = () => {
           )}
         </div>
 
-        {/* Real-time KPI Snapshot */}
         <MetricCards />
 
-        {/* Tab Switcher: Recharts Time-Series vs Polar Wind Rose */}
         <div style={{ display: 'flex', gap: 6 }}>
           <button
             onClick={() => setActiveTab('timeseries')}
@@ -183,7 +169,6 @@ export const AnalyticsPanel: React.FC = () => {
 
         {activeTab === 'timeseries' ? (
           <>
-            {/* Metric Filter Tabs */}
             <div style={{ display: 'flex', gap: 4 }}>
               {metrics.map((m) => (
                 <button
@@ -212,7 +197,6 @@ export const AnalyticsPanel: React.FC = () => {
               ))}
             </div>
 
-            {/* Recharts Chart */}
             <div
               style={{
                 background: 'rgba(15, 23, 42, 0.6)',

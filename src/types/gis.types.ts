@@ -47,10 +47,10 @@ export interface StationTimeSeriesPoint extends WeatherSnapshot {
 
 export interface TimePoint {
   index: number;
-  timestamp: number; // epoch ms
+  timestamp: number;
   iso: string;
-  label: string; // "14:00"
-  fullLabel: string; // "Today, 14:00"
+  label: string;
+  fullLabel: string;
 }
 
 export interface AggregatedMetrics {

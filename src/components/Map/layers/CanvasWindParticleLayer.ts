@@ -19,7 +19,6 @@ export class CanvasWindParticleEngine {
   private isRunning: boolean = false;
   private windGrid: Array<{ lng: number; lat: number; u: number; v: number; speed: number }> = [];
 
-  // Alpine geographic bounding box
   private bounds = {
     minLng: 8.4,
     maxLng: 13.6,
@@ -57,7 +56,6 @@ export class CanvasWindParticleEngine {
   };
 
   private handleMapMove = () => {
-    // Clear trail accumulation on rapid pan/zoom
     const container = this.map.getContainer();
     this.ctx.clearRect(0, 0, container.clientWidth, container.clientHeight);
   };
@@ -102,9 +100,6 @@ export class CanvasWindParticleEngine {
     };
   }
 
-  /**
-   * Sample bilinear velocity (u, v) at particle coordinates
-   */
   private sampleVelocity(lng: number, lat: number): { u: number; v: number; speed: number } {
     if (this.windGrid.length === 0) return { u: 0.005, v: 0.002, speed: 5 };
 
@@ -161,7 +156,6 @@ export class CanvasWindParticleEngine {
     const w = container.clientWidth;
     const h = container.clientHeight;
 
-    // Trail persistence fade
     this.ctx.fillStyle = 'rgba(10, 15, 29, 0.92)';
     this.ctx.globalCompositeOperation = 'destination-in';
     this.ctx.fillRect(0, 0, w, h);
@@ -170,13 +164,9 @@ export class CanvasWindParticleEngine {
     for (let i = 0; i < this.particles.length; i++) {
       const p = this.particles[i];
 
-      // Convert geo to screen coordinates
       const currentPoint = this.map.project([p.lng, p.lat]);
-
-      // Sample local wind vector
       const vel = this.sampleVelocity(p.lng, p.lat);
 
-      // Advance particle position
       p.lng += vel.u;
       p.lat += vel.v;
       p.age++;
@@ -184,7 +174,6 @@ export class CanvasWindParticleEngine {
 
       const nextPoint = this.map.project([p.lng, p.lat]);
 
-      // Draw particle streak
       if (
         currentPoint.x >= 0 &&
         currentPoint.x <= w &&
@@ -201,7 +190,6 @@ export class CanvasWindParticleEngine {
         this.ctx.stroke();
       }
 
-      // Re-spawn dead or out-of-bounds particles
       if (
         p.age >= p.maxAge ||
         p.lng < this.bounds.minLng ||

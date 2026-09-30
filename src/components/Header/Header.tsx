@@ -12,11 +12,7 @@ import {
   X,
   Compass,
 } from 'lucide-react';
-import {
-  useAppDispatch,
-  useAppSelector,
-  AppStoreActions,
-} from '../../store/appStore';
+import { useAppDispatch, useAppSelector, AppStoreActions } from '@/store/appStore';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -67,7 +63,6 @@ export const Header: React.FC = () => {
         }}
         className="glass-panel"
       >
-        {/* Left: Brand & Station Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
           <div
             style={{
@@ -114,7 +109,6 @@ export const Header: React.FC = () => {
               </span>
             </div>
 
-            {/* Target Location / Station Filter */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11 }}>
               <MapPin size={12} color={selectedStation ? '#38bdf8' : '#64748b'} />
               {selectedStation ? (
@@ -155,7 +149,6 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Center: Live Timepoint, Day/Night, Sync Status & Lag Selector */}
         <div
           style={{
             display: 'flex',
@@ -168,7 +161,6 @@ export const Header: React.FC = () => {
             flexShrink: 0,
           }}
         >
-          {/* Time & Day/Night */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <Clock size={14} color="#06b6d4" />
             <span
@@ -198,7 +190,6 @@ export const Header: React.FC = () => {
 
           <div style={{ width: 1, height: 14, background: 'rgba(255, 255, 255, 0.12)' }} />
 
-          {/* Sync Indicator */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
             <div
               style={{
@@ -219,7 +210,6 @@ export const Header: React.FC = () => {
 
           <div style={{ width: 1, height: 14, background: 'rgba(255, 255, 255, 0.12)' }} />
 
-          {/* Latency Simulator */}
           <div
             style={{
               display: 'flex',
@@ -244,16 +234,20 @@ export const Header: React.FC = () => {
                 fontFamily: 'inherit',
               }}
             >
-              <option value="0" style={{ background: '#0f172a' }}>0ms (Instant)</option>
-              <option value="150" style={{ background: '#0f172a' }}>150ms (Normal)</option>
-              <option value="400" style={{ background: '#0f172a' }}>400ms (High Lag)</option>
+              <option value="0" style={{ background: '#0f172a' }}>
+                0ms (Instant)
+              </option>
+              <option value="150" style={{ background: '#0f172a' }}>
+                150ms (Normal)
+              </option>
+              <option value="400" style={{ background: '#0f172a' }}>
+                400ms (High Lag)
+              </option>
             </select>
           </div>
         </div>
 
-        {/* Right: Actions & Tools */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-          {/* 3D Perspective Toggle */}
           <button
             onClick={() => AppStoreActions.toggle3DMode(dispatch, !mapViewState.is3D)}
             className={`glass-button ${mapViewState.is3D ? 'active' : ''}`}
@@ -264,7 +258,6 @@ export const Header: React.FC = () => {
             <span>3D View</span>
           </button>
 
-          {/* Reset Camera Button */}
           <button
             onClick={() =>
               AppStoreActions.updateMapViewState(dispatch, {
@@ -281,7 +274,6 @@ export const Header: React.FC = () => {
             <Compass size={14} />
           </button>
 
-          {/* Layer Panel Toggle */}
           <button
             onClick={() => dispatch({ isSidebarOpen: !isSidebarOpen })}
             className={`glass-button ${isSidebarOpen ? 'active' : ''}`}
@@ -292,7 +284,6 @@ export const Header: React.FC = () => {
             <span>Layers</span>
           </button>
 
-          {/* Analytics Panel Toggle */}
           <button
             onClick={() => dispatch({ isAnalyticsOpen: !isAnalyticsOpen })}
             className={`glass-button ${isAnalyticsOpen ? 'active' : ''}`}
@@ -303,7 +294,6 @@ export const Header: React.FC = () => {
             <span>Analytics</span>
           </button>
 
-          {/* Info Modal Button */}
           <button
             onClick={() => setShowInfoModal(true)}
             className="glass-button"
@@ -315,7 +305,6 @@ export const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Architecture Info Modal */}
       {showInfoModal && (
         <div
           style={{
@@ -343,7 +332,14 @@ export const Header: React.FC = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 16,
+              }}
+            >
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Activity size={22} color="#06b6d4" />
                 <h2 style={{ fontSize: 18, fontWeight: 700 }}>Alps MeteoGIS Architecture</h2>
@@ -361,13 +357,24 @@ export const Header: React.FC = () => {
               </button>
             </div>
 
-            <div style={{ fontSize: 13, color: '#cbd5e1', lineHeight: 1.6, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div
+              style={{
+                fontSize: 13,
+                color: '#cbd5e1',
+                lineHeight: 1.6,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+              }}
+            >
               <div>
                 <h3 style={{ color: '#38bdf8', fontSize: 13, fontWeight: 600, marginBottom: 3 }}>
                   1. Unified State Flow with Vedro
                 </h3>
                 <p>
-                  State is centrally managed with <code>Vedro</code> store. When the user interacts with the Timeline, Map, or Recharts, a single action modifies the store, notifying only subscribed components to prevent unnecessary re-renders.
+                  State is centrally managed with <code>Vedro</code> store. When the user interacts
+                  with the Timeline, Map, or Recharts, a single action modifies the store, notifying
+                  only subscribed components to prevent unnecessary re-renders.
                 </p>
               </div>
 
@@ -376,9 +383,12 @@ export const Header: React.FC = () => {
                   2. Two-Way Recharts & Map Synchronization
                 </h3>
                 <p>
-                  • Scrubbing the <strong>Timeline</strong> updates the Map layers and moves the vertical reference cursor on the <strong>Recharts</strong> graph.<br />
-                  • Clicking any time slice directly on the <strong>Recharts</strong> graph updates the Timeline and Map.<br />
-                  • Clicking a <strong>Weather Station</strong> marker on the map isolates that station's microclimate curve on Recharts.
+                  • Scrubbing the <strong>Timeline</strong> updates the Map layers and moves the
+                  vertical reference cursor on the <strong>Recharts</strong> graph.
+                  <br />• Clicking any time slice directly on the <strong>Recharts</strong> graph
+                  updates the Timeline and Map.
+                  <br />• Clicking a <strong>Weather Station</strong> marker on the map isolates
+                  that station's microclimate curve on Recharts.
                 </p>
               </div>
 
@@ -387,7 +397,10 @@ export const Header: React.FC = () => {
                   3. Asynchronous Data & Race Condition Protection
                 </h3>
                 <p>
-                  Rapid scrubbing generates multiple asynchronous layer queries. Each request is tagged with an incremental <code>requestId</code> and guarded with <code>AbortController</code>. Out-of-order stale responses are automatically discarded.
+                  Rapid scrubbing generates multiple asynchronous layer queries. Each request is
+                  tagged with an incremental <code>requestId</code> and guarded with{' '}
+                  <code>AbortController</code>. Out-of-order stale responses are automatically
+                  discarded.
                 </p>
               </div>
 
@@ -396,10 +409,14 @@ export const Header: React.FC = () => {
                   4. GIS Layer Modeling & 3D Objects
                 </h3>
                 <p>
-                  • <strong>Temperature</strong>: Continuous 2m ambient heat surface & station badges.<br />
-                  • <strong>Wind</strong>: Aerodynamic velocity vector field with directional azimuths and Canvas particle flow.<br />
-                  • <strong>Solar Insolation</strong>: Irradiance polygons (W/m²) calculated from solar elevation.<br />
-                  • <strong>3D Doppler Radar Tower</strong>: Geodesic 3D structure on Zugspitze with animated telemetry.
+                  • <strong>Temperature</strong>: Continuous 2m ambient heat surface & station
+                  badges.
+                  <br />• <strong>Wind</strong>: Aerodynamic velocity vector field with directional
+                  azimuths and Canvas particle flow.
+                  <br />• <strong>Solar Insolation</strong>: Irradiance polygons (W/m²) calculated
+                  from solar elevation.
+                  <br />• <strong>3D Doppler Radar Tower</strong>: Geodesic 3D structure on
+                  Zugspitze with animated telemetry.
                 </p>
               </div>
             </div>

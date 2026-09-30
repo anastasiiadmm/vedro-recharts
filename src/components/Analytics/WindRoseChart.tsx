@@ -1,6 +1,6 @@
 import React from 'react';
-import { computeWindRoseData } from '../../services/spatialMath';
-import { useAppSelector } from '../../store/appStore';
+import { computeWindRoseData } from '@/services/spatialMath';
+import { useAppSelector } from '@/store/appStore';
 
 export const WindRoseChart: React.FC = () => {
   const { selectedStationId, stationTimeSeries, regionTimeSeries } = useAppSelector((state) => ({
@@ -14,7 +14,6 @@ export const WindRoseChart: React.FC = () => {
       ? stationTimeSeries[selectedStationId]
       : regionTimeSeries;
 
-  // Compute 8-sector directional distribution from the 24-hour cycle
   const roseData = computeWindRoseData(
     activeSeries.map((s) => ({ speed: s.windSpeed, direction: s.windDirection }))
   );
@@ -23,11 +22,7 @@ export const WindRoseChart: React.FC = () => {
   const center = size / 2;
   const maxRadius = size * 0.38;
 
-  // Find max count to normalize radial scale
-  const maxCount = Math.max(
-    ...roseData.map((d) => d.calm + d.moderate + d.strong + d.gale),
-    4
-  );
+  const maxCount = Math.max(...roseData.map((d) => d.calm + d.moderate + d.strong + d.gale), 4);
 
   const sectors = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
@@ -60,7 +55,6 @@ export const WindRoseChart: React.FC = () => {
       </div>
 
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        {/* Concentric Grid Rings */}
         {[0.25, 0.5, 0.75, 1.0].map((frac, idx) => (
           <circle
             key={idx}
@@ -73,7 +67,6 @@ export const WindRoseChart: React.FC = () => {
           />
         ))}
 
-        {/* 8 Radial Spokes */}
         {sectors.map((_, idx) => {
           const angle = (idx * 45 - 90) * (Math.PI / 180);
           const x = center + Math.cos(angle) * maxRadius;
@@ -90,34 +83,25 @@ export const WindRoseChart: React.FC = () => {
           );
         })}
 
-        {/* Rose Petal Polygons */}
         {roseData.map((d, idx) => {
           const total = d.calm + d.moderate + d.strong + d.gale;
           if (total === 0) return null;
 
           const angleCenter = idx * 45 - 90;
-          const halfAngle = 18; // sector width in degrees
+          const halfAngle = 18;
 
           const a1 = ((angleCenter - halfAngle) * Math.PI) / 180;
           const a2 = ((angleCenter + halfAngle) * Math.PI) / 180;
 
           const rTotal = (total / maxCount) * maxRadius;
           const rCalm = (d.calm / maxCount) * maxRadius;
-          const rMod = ((d.calm + d.moderate) / maxCount) * maxRadius;
-          const rStrong = ((d.calm + d.moderate + d.strong) / maxCount) * maxRadius;
 
           const p1 = `${center + Math.cos(a1) * rTotal},${center + Math.sin(a1) * rTotal}`;
           const p2 = `${center + Math.cos(a2) * rTotal},${center + Math.sin(a2) * rTotal}`;
 
           return (
             <g key={d.sector}>
-              {/* Petal Outer Segment */}
-              <polygon
-                points={`${center},${center} ${p1} ${p2}`}
-                fill="#38bdf8"
-                opacity={0.7}
-              />
-              {/* Petal Calm Inner Segment */}
+              <polygon points={`${center},${center} ${p1} ${p2}`} fill="#38bdf8" opacity={0.7} />
               {rCalm > 0 && (
                 <polygon
                   points={`${center},${center} ${center + Math.cos(a1) * rCalm},${
@@ -131,7 +115,6 @@ export const WindRoseChart: React.FC = () => {
           );
         })}
 
-        {/* Sector Labels (N, E, S, W) */}
         {sectors.map((sec, idx) => {
           const angle = (idx * 45 - 90) * (Math.PI / 180);
           const labelDist = maxRadius + 14;
@@ -155,11 +138,9 @@ export const WindRoseChart: React.FC = () => {
           );
         })}
 
-        {/* Center Origin Dot */}
         <circle cx={center} cy={center} r={3} fill="#06b6d4" />
       </svg>
 
-      {/* Legend */}
       <div
         style={{
           display: 'flex',

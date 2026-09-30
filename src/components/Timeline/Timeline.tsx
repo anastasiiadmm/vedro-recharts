@@ -1,33 +1,20 @@
 import React, { useEffect } from 'react';
-import {
-  Play,
-  Pause,
-  SkipBack,
-  SkipForward,
-  Clock,
-  Sun,
-  Compass,
-} from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Clock, Sun } from 'lucide-react';
 import {
   useAppDispatch,
   useAppSelector,
   useAppStoreInstance,
   AppStoreActions,
-} from '../../store/appStore';
-import { usePlayback } from '../../hooks/usePlayback';
-import { PlaybackSpeed } from '../../types/store.types';
-import { calculateSolarZenith } from '../../services/spatialMath';
+} from '@/store/appStore';
+import { usePlayback } from '@/hooks/usePlayback';
+import { PlaybackSpeed } from '@/types/store.types';
+import { calculateSolarZenith } from '@/services/spatialMath';
 
 export const Timeline: React.FC = () => {
   const dispatch = useAppDispatch();
   const store = useAppStoreInstance();
 
-  const {
-    timePoints,
-    currentTimeIndex,
-    isPlaying,
-    playbackSpeed,
-  } = useAppSelector((state) => ({
+  const { timePoints, currentTimeIndex, isPlaying, playbackSpeed } = useAppSelector((state) => ({
     timePoints: state.timePoints,
     currentTimeIndex: state.currentTimeIndex,
     isPlaying: state.isPlaying,
@@ -35,11 +22,8 @@ export const Timeline: React.FC = () => {
   }));
 
   const { togglePlay, stepForward, stepBackward } = usePlayback();
-
-  // Astronomical Solar calculation for Alpine latitude ~47.4°N
   const solarAstro = calculateSolarZenith(47.4, 11.0, 272, currentTimeIndex);
 
-  // Spacebar hotkey to toggle play/pause
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
@@ -92,7 +76,6 @@ export const Timeline: React.FC = () => {
         gap: 6,
       }}
     >
-      {/* Top Bar: Playback Controls & Current Time & Speed Selector */}
       <div
         style={{
           display: 'flex',
@@ -100,7 +83,6 @@ export const Timeline: React.FC = () => {
           justifyContent: 'space-between',
         }}
       >
-        {/* Playback Button Group */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button
             onClick={stepBackward}
@@ -144,7 +126,6 @@ export const Timeline: React.FC = () => {
             <SkipForward size={15} />
           </button>
 
-          {/* Speed Selector */}
           <div
             style={{
               display: 'flex',
@@ -175,9 +156,7 @@ export const Timeline: React.FC = () => {
           </div>
         </div>
 
-        {/* Current Time Display Pill & Astronomical Phase */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {/* Solar Twilight Phase Badge */}
           <div
             style={{
               display: 'flex',
@@ -226,16 +205,12 @@ export const Timeline: React.FC = () => {
             >
               {currentPoint.label}
             </span>
-            <span style={{ fontSize: 11, color: '#94a3b8' }}>
-              ({currentPoint.fullLabel})
-            </span>
+            <span style={{ fontSize: 11, color: '#94a3b8' }}>({currentPoint.fullLabel})</span>
           </div>
         </div>
       </div>
 
-      {/* Scrubber Range Slider & Ticks */}
       <div style={{ position: 'relative', width: '100%', paddingTop: 4, paddingBottom: 6 }}>
-        {/* Daylight / Solar Band underlay */}
         <div
           style={{
             position: 'absolute',
@@ -267,7 +242,6 @@ export const Timeline: React.FC = () => {
           }}
         />
 
-        {/* Time Tick Labels */}
         <div
           style={{
             display: 'flex',

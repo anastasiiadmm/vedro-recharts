@@ -1,14 +1,62 @@
-import { LayerConfig, LayerId, TimePoint, WeatherStation } from '../types/gis.types';
+import { LayerConfig, LayerId, TimePoint, WeatherStation } from '@/types/gis.types';
 
 export const INITIAL_STATIONS: WeatherStation[] = [
-  { id: 'st-munich', name: 'Munich Met Observatory', coordinates: [11.582, 48.135], elevation: 520, region: 'Bavaria' },
-  { id: 'st-innsbruck', name: 'Innsbruck Alpine Station', coordinates: [11.404, 47.269], elevation: 1120, region: 'Tyrol' },
-  { id: 'st-salzburg', name: 'Salzburg Valley Station', coordinates: [13.055, 47.809], elevation: 430, region: 'Salzburg' },
-  { id: 'st-zurich', name: 'Zurich Lake Station', coordinates: [8.541, 47.376], elevation: 408, region: 'Zurich' },
-  { id: 'st-garmisch', name: 'Zugspitze Peak Station', coordinates: [10.985, 47.421], elevation: 2962, region: 'Bavarian Alps' },
-  { id: 'st-bolzano', name: 'Bolzano Solar Research', coordinates: [11.354, 46.498], elevation: 262, region: 'South Tyrol' },
-  { id: 'st-konstanz', name: 'Bodensee Marine Weather', coordinates: [9.175, 47.677], elevation: 395, region: 'Baden-Württemberg' },
-  { id: 'st-vaduz', name: 'Rhine Valley Monitoring', coordinates: [9.521, 47.141], elevation: 455, region: 'Liechtenstein' },
+  {
+    id: 'st-munich',
+    name: 'Munich Met Observatory',
+    coordinates: [11.582, 48.135],
+    elevation: 520,
+    region: 'Bavaria',
+  },
+  {
+    id: 'st-innsbruck',
+    name: 'Innsbruck Alpine Station',
+    coordinates: [11.404, 47.269],
+    elevation: 1120,
+    region: 'Tyrol',
+  },
+  {
+    id: 'st-salzburg',
+    name: 'Salzburg Valley Station',
+    coordinates: [13.055, 47.809],
+    elevation: 430,
+    region: 'Salzburg',
+  },
+  {
+    id: 'st-zurich',
+    name: 'Zurich Lake Station',
+    coordinates: [8.541, 47.376],
+    elevation: 408,
+    region: 'Zurich',
+  },
+  {
+    id: 'st-garmisch',
+    name: 'Zugspitze Peak Station',
+    coordinates: [10.985, 47.421],
+    elevation: 2962,
+    region: 'Bavarian Alps',
+  },
+  {
+    id: 'st-bolzano',
+    name: 'Bolzano Solar Research',
+    coordinates: [11.354, 46.498],
+    elevation: 262,
+    region: 'South Tyrol',
+  },
+  {
+    id: 'st-konstanz',
+    name: 'Bodensee Marine Weather',
+    coordinates: [9.175, 47.677],
+    elevation: 395,
+    region: 'Baden-Württemberg',
+  },
+  {
+    id: 'st-vaduz',
+    name: 'Rhine Valley Monitoring',
+    coordinates: [9.521, 47.141],
+    elevation: 455,
+    region: 'Liechtenstein',
+  },
 ];
 
 export const INITIAL_TIME_POINTS: TimePoint[] = Array.from({ length: 24 }, (_, hour) => {

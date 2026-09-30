@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColorStop } from '../../types/gis.types';
+import { ColorStop } from '@/types/gis.types';
 
 interface LayerLegendProps {
   colorScale: ColorStop[];
@@ -9,7 +9,6 @@ interface LayerLegendProps {
 export const LayerLegend: React.FC<LayerLegendProps> = ({ colorScale, unit }) => {
   if (!colorScale || colorScale.length === 0) return null;
 
-  // Build CSS linear-gradient string from color stops
   const gradientStops = colorScale
     .map((stop, index) => {
       const pct = (index / (colorScale.length - 1)) * 100;
@@ -22,7 +21,6 @@ export const LayerLegend: React.FC<LayerLegendProps> = ({ colorScale, unit }) =>
 
   return (
     <div style={{ marginTop: 8 }}>
-      {/* Gradient Bar */}
       <div
         style={{
           height: 8,
@@ -32,7 +30,6 @@ export const LayerLegend: React.FC<LayerLegendProps> = ({ colorScale, unit }) =>
         }}
       />
 
-      {/* Labels */}
       <div
         style={{
           display: 'flex',

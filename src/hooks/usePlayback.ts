@@ -1,16 +1,23 @@
 import { useEffect, useRef } from 'react';
-import { useAppDispatch, useAppSelector, useAppStoreInstance, AppStoreActions } from '../store/appStore';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useAppStoreInstance,
+  AppStoreActions,
+} from '@/store/appStore';
 
 export function usePlayback() {
   const dispatch = useAppDispatch();
   const store = useAppStoreInstance();
 
-  const { isPlaying, playbackSpeed, currentTimeIndex, timePointsCount } = useAppSelector((state) => ({
-    isPlaying: state.isPlaying,
-    playbackSpeed: state.playbackSpeed,
-    currentTimeIndex: state.currentTimeIndex,
-    timePointsCount: state.timePoints.length,
-  }));
+  const { isPlaying, playbackSpeed, currentTimeIndex, timePointsCount } = useAppSelector(
+    (state) => ({
+      isPlaying: state.isPlaying,
+      playbackSpeed: state.playbackSpeed,
+      currentTimeIndex: state.currentTimeIndex,
+      timePointsCount: state.timePoints.length,
+    })
+  );
 
   const timerRef = useRef<number | null>(null);
 

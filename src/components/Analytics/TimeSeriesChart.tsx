@@ -16,8 +16,8 @@ import {
   useAppSelector,
   useAppStoreInstance,
   AppStoreActions,
-} from '../../store/appStore';
-import { StationTimeSeriesPoint } from '../../types/gis.types';
+} from '@/store/appStore';
+import { StationTimeSeriesPoint } from '@/types/gis.types';
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -119,7 +119,6 @@ export const TimeSeriesChart: React.FC = () => {
     activeLayerIds: state.activeLayerIds,
   }));
 
-  // Determine active time series data (selected station vs regional mean)
   const chartData: StationTimeSeriesPoint[] =
     selectedStationId && stationTimeSeries[selectedStationId]
       ? stationTimeSeries[selectedStationId]
@@ -128,7 +127,6 @@ export const TimeSeriesChart: React.FC = () => {
   const currentPoint = timePoints[currentTimeIndex] || timePoints[0];
   const currentSnapshot = chartData[currentTimeIndex] || chartData[0];
 
-  // Two-Way Sync: User clicks directly on chart to change timeline state!
   const handleChartClick = (e: any) => {
     if (e && typeof e.activeTooltipIndex === 'number') {
       AppStoreActions.setTimeIndex(dispatch, store, e.activeTooltipIndex);
@@ -176,7 +174,6 @@ export const TimeSeriesChart: React.FC = () => {
             fontFamily="JetBrains Mono, monospace"
           />
 
-          {/* Left Y-Axis for Temperature (°C) and Wind (m/s) */}
           <YAxis
             yAxisId="left"
             stroke="#94a3b8"
@@ -186,7 +183,6 @@ export const TimeSeriesChart: React.FC = () => {
             fontFamily="JetBrains Mono, monospace"
           />
 
-          {/* Right Y-Axis for Solar Insolation (W/m²) */}
           <YAxis
             yAxisId="right"
             orientation="right"
@@ -206,7 +202,6 @@ export const TimeSeriesChart: React.FC = () => {
             wrapperStyle={{ fontSize: 11, paddingBottom: 6 }}
           />
 
-          {/* Solar Insolation (W/m²) Area Series */}
           {showSolar && (
             <Area
               yAxisId="right"
@@ -220,7 +215,6 @@ export const TimeSeriesChart: React.FC = () => {
             />
           )}
 
-          {/* Temperature (°C) Line Series */}
           {showTemp && (
             <Line
               yAxisId="left"
@@ -235,7 +229,6 @@ export const TimeSeriesChart: React.FC = () => {
             />
           )}
 
-          {/* Wind Speed (m/s) Line Series */}
           {showWind && (
             <Line
               yAxisId="left"
@@ -251,7 +244,6 @@ export const TimeSeriesChart: React.FC = () => {
             />
           )}
 
-          {/* Synchronized Reference Line marking selected time slice */}
           <ReferenceLine
             yAxisId="left"
             x={currentPoint.label}
@@ -267,7 +259,6 @@ export const TimeSeriesChart: React.FC = () => {
             }}
           />
 
-          {/* Glowing dot on temperature curve at current time */}
           {showTemp && currentSnapshot && (
             <ReferenceDot
               yAxisId="left"

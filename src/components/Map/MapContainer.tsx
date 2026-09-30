@@ -5,10 +5,10 @@ import {
   useAppSelector,
   useAppStoreInstance,
   AppStoreActions,
-} from '../../store/appStore';
-import { GisLayerRenderer } from './layers/gisLayerManager';
-import { CanvasWindParticleEngine } from './layers/CanvasWindParticleLayer';
-import { generateWindBarbSvg } from '../../services/spatialMath';
+} from '@/store/appStore';
+import { GisLayerRenderer } from '@/components/Map/layers/gisLayerManager';
+import { CanvasWindParticleEngine } from '@/components/Map/layers/CanvasWindParticleLayer';
+import { generateWindBarbSvg } from '@/services/spatialMath';
 
 const BASEMAP_STYLE: StyleSpecification = {
   version: 8,
@@ -78,7 +78,6 @@ export const MapContainer: React.FC = () => {
     layers: state.layers,
   }));
 
-  // Initialize MapLibre GL Map
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
@@ -91,7 +90,6 @@ export const MapContainer: React.FC = () => {
       bearing: mapViewState.bearing,
     });
 
-    // Add Navigation Control
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-left');
 
     map.on('load', () => {
@@ -99,7 +97,6 @@ export const MapContainer: React.FC = () => {
       GisLayerRenderer.initializeLayers(map);
       GisLayerRenderer.updateMapState(map, store.get());
 
-      // Initialize Custom Handwritten Wind Particle Engine
       windParticleEngineRef.current = new CanvasWindParticleEngine(map);
       const windGeoJson = store.get().currentGeoJsonData.wind;
       if (windGeoJson && windGeoJson.features) {
@@ -110,7 +107,6 @@ export const MapContainer: React.FC = () => {
       }
     });
 
-    // Handle Hover Tooltip on Solar Polygons
     map.on('mousemove', 'solar-fill', (e: any) => {
       if (e.features && e.features[0]) {
         map.getCanvas().style.cursor = 'pointer';
@@ -124,14 +120,16 @@ export const MapContainer: React.FC = () => {
         }
         popupRef.current
           .setLngLat(e.lngLat)
-          .setHTML(`
+          .setHTML(
+            `
             <div style="font-size: 11px; font-family: Inter, sans-serif;">
               <strong style="color: #fbbf24;">☀️ Solar Irradiance</strong>
               <div style="font-family: JetBrains Mono; font-size: 13px; font-weight: bold; margin-top: 2px;">
                 ${props.irradiance} W/m²
               </div>
             </div>
-          `)
+          `
+          )
           .addTo(map);
       }
     });
@@ -143,7 +141,6 @@ export const MapContainer: React.FC = () => {
       }
     });
 
-    // Handle Hover on Wind circles with WMO Barb
     map.on('mousemove', 'wind-points-bg', (e: any) => {
       if (e.features && e.features[0]) {
         map.getCanvas().style.cursor = 'pointer';
@@ -159,7 +156,8 @@ export const MapContainer: React.FC = () => {
         }
         popupRef.current
           .setLngLat(e.lngLat)
-          .setHTML(`
+          .setHTML(
+            `
             <div style="font-size: 11px; font-family: Inter, sans-serif; display: flex; align-items: center; gap: 10px;">
               <svg width="36" height="36" viewBox="0 0 36 36" style="transform: rotate(${barb.rotation}deg);">
                 <path d="${barb.svgPath}" stroke="${barb.color}" stroke-width="2" fill="${barb.color}" stroke-linecap="round" stroke-linejoin="round" />
@@ -171,7 +169,8 @@ export const MapContainer: React.FC = () => {
                 </div>
               </div>
             </div>
-          `)
+          `
+          )
           .addTo(map);
       }
     });
@@ -183,7 +182,6 @@ export const MapContainer: React.FC = () => {
       }
     });
 
-    // Sync camera changes back to store
     map.on('moveend', () => {
       const center = map.getCenter();
       AppStoreActions.updateMapViewState(dispatch, {
@@ -206,7 +204,6 @@ export const MapContainer: React.FC = () => {
     };
   }, []);
 
-  // Update GIS data layers and Wind Particle Engine when store updates
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !map.isStyleLoaded()) return;
@@ -226,7 +223,6 @@ export const MapContainer: React.FC = () => {
     }
   }, [currentGeoJsonData, activeLayerIds, layers, currentTimeIndex]);
 
-  // Handle Camera Fly-To when Selected Station or 3D Mode changes
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -240,21 +236,20 @@ export const MapContainer: React.FC = () => {
     });
   }, [selectedStationId, mapViewState.is3D]);
 
-  // Render Interactive Station DOM Markers with live badges
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
-    // Clear previous markers
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
 
     stations.forEach((station) => {
       const isSelected = station.id === selectedStationId;
       const snap = stationTimeSeries[station.id]?.[currentTimeIndex];
-      const tempVal = snap ? `${snap.temperature > 0 ? '+' : ''}${snap.temperature.toFixed(1)}°` : '--°';
+      const tempVal = snap
+        ? `${snap.temperature > 0 ? '+' : ''}${snap.temperature.toFixed(1)}°`
+        : '--°';
 
-      // Create Custom Marker Element
       const el = document.createElement('div');
       el.className = 'station-marker-container';
       el.style.cursor = 'pointer';
@@ -292,14 +287,9 @@ export const MapContainer: React.FC = () => {
         </div>
       `;
 
-      // Station Click Handler
       el.addEventListener('click', (e) => {
         e.stopPropagation();
-        AppStoreActions.selectStation(
-          dispatch,
-          isSelected ? null : station.id,
-          store
-        );
+        AppStoreActions.selectStation(dispatch, isSelected ? null : station.id, store);
       });
 
       const marker = new maplibregl.Marker({ element: el })
