@@ -7,7 +7,10 @@
 [![Recharts](https://img.shields.io/badge/Recharts-2.15-22c55e)](https://recharts.org/)
 [![Sass](https://img.shields.io/badge/Sass/SCSS-1.105-cc6699?logo=sass&logoColor=white)](https://sass-lang.com/)
 [![FSD](https://img.shields.io/badge/Architecture-FSD_2.1-ff6f00)](https://feature-sliced.design/)
+[![Vercel](https://img.shields.io/badge/Deployed_with-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+> 🔗 **Опубликованное приложение (Live Demo):** **[https://vedro-recharts.vercel.app](https://vedro-recharts.vercel.app)** *(или ваш Vercel URL)*
 
 **Alps MeteoGIS Studio** — высокопроизводительная интерактивная геоинформационная система (GIS) для пространственно-временного мониторинга, анализа и визуализации микроклиматических и метеорологических данных Альпийского региона.
 
@@ -75,6 +78,21 @@ npm run dev
 | `npm run format:check` | Проверка соответствия форматирования Prettier без модификации |
 | `npm run build` | Компиляция TypeScript и сборка оптимизированного production-бандла в `/dist` |
 | `npm run preview` | Локальный просмотр production-сборки |
+
+---
+
+### 4. ☁️ Публикация и деплой на Vercel (в 1 клик)
+
+Проект полностью оптимизирован для мгновенного развертывания на **Vercel** без дополнительной настройки:
+
+1. Перейдите на **[vercel.com](https://vercel.com)** и авторизуйтесь через ваш **GitHub** аккаунт.
+2. Нажмите **"Add New..."** → **"Project"**.
+3. В списке репозиториев выберите **`vedro-recharts`** и нажмите **"Import"**.
+4. Vercel автоматически определит настройки:
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+5. Нажмите кнопку **"Deploy"**. Через 30 секунд проект будет опубликован, и вы получите публичный рабочий URL (например, `https://vedro-recharts.vercel.app`).
 
 ---
 
